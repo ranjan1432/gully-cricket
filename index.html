@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erode Gully Cricket - Match Setup</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="navbar">
+    <div class="brand"><div class="brand-icon">🏏</div><div><h1>ERODE</h1><span>GULLY CRICKET</span></div></div>
+    <div class="live-badge">● MATCH SETUP</div>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <span class="eyebrow">ERODE GULLY CRICKET</span>
+        <h2>SET UP YOUR MATCH</h2>
+        <p>Teams, players, overs and batting order — configure everything before the first ball.</p>
+    </section>
+
+    <section class="setup-grid">
+        <div class="setup-card">
+            <div class="section-title"><span>01</span><h3>TEAM A</h3></div>
+            <input id="team1Name" placeholder="Team A name" value="Erode Thalaivas">
+            <div class="player-input">
+                <input id="team1Player" placeholder="Player name">
+                <button onclick="addPlayer(1)">ADD</button>
+            </div>
+            <div id="team1List" class="player-list"></div>
+        </div>
+
+        <div class="setup-card">
+            <div class="section-title"><span>02</span><h3>TEAM B</h3></div>
+            <input id="team2Name" placeholder="Team B name" value="Erode Kings">
+            <div class="player-input">
+                <input id="team2Player" placeholder="Player name">
+                <button onclick="addPlayer(2)">ADD</button>
+            </div>
+            <div id="team2List" class="player-list"></div>
+        </div>
+
+        <div class="setup-card full">
+            <div class="section-title"><span>03</span><h3>MATCH SETTINGS</h3></div>
+            <div class="settings">
+                <label>OVERS
+                    <select id="overs">
+                        <option value="5">5 Overs</option>
+                        <option value="6">6 Overs</option>
+                        <option value="8" selected>8 Overs</option>
+                        <option value="10">10 Overs</option>
+                        <option value="12">12 Overs</option>
+                    </select>
+                </label>
+                <label>BATTING FIRST
+                    <select id="battingFirst">
+                        <option value="1">Team A</option>
+                        <option value="2">Team B</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <button class="start-btn" onclick="startMatch()">START MATCH <span>→</span></button>
+</main>
+
+<script>
+let team1Players = ["Arun", "Karthi", "Siva", "Mani", "Vijay"];
+let team2Players = ["Ajay", "Praveen", "Ravi", "Dinesh", "Surya"];
+
+function renderPlayers(team) {
+    const arr = team === 1 ? team1Players : team2Players;
+    const box = document.getElementById(`team${team}List`);
+    box.innerHTML = arr.map((p,i)=>`
+        <div class="player-row">
+            <span><b>${i+1}</b>${escapeHtml(p)}</span>
+            <button onclick="removePlayer(${team},${i})">×</button>
+        </div>`).join("");
+}
+function addPlayer(team) {
+    const input = document.getElementById(`team${team}Player`);
+    const name = input.value.trim();
+    if (!name) return;
+    const arr = team === 1 ? team1Players : team2Players;
+    arr.push(name);
+    input.value = "";
+    renderPlayers(team);
+}
+function removePlayer(team,index) {
+    const arr = team === 1 ? team1Players : team2Players;
+    if (arr.length <= 2) return alert("Minimum 2 players required.");
+    arr.splice(index,1);
+    renderPlayers(team);
+}
+function escapeHtml(s) {
+    return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+function startMatch() {
+    const team1 = document.getElementById("team1Name").value.trim();
+    const team2 = document.getElementById("team2Name").value.trim();
+    const battingTeam = Number(document.getElementById("battingFirst").value);
+    if (!team1 || !team2) return alert("Enter both team names.");
+    if (team1Players.length < 2 || team2Players.length < 2) return alert("Each team needs at least 2 players.");
+
+    const data = {
+        team1, team2, team1Players, team2Players,
+        overs: Number(document.getElementById("overs").value),
+        battingTeam,
+        score: 0, wickets: 0, balls: 0,
+        innings: 1, firstInningsScore: null, target: null
+    };
+    localStorage.setItem("erodeCricketMatch", JSON.stringify(data));
+    location.href = "live.html";
+}
+renderPlayers(1);
+renderPlayers(2);
+</script>
+</body>
+</html>

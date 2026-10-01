@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erode Gully Cricket - Live Score</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="navbar">
+    <div class="brand"><div class="brand-icon">🏏</div><div><h1>ERODE</h1><span>GULLY CRICKET</span></div></div>
+    <div class="live-badge live">● LIVE</div>
+</header>
+
+<main class="container">
+    <section class="match-header">
+        <div><p>BATTING</p><h2 id="battingTeamName">Team A</h2></div>
+        <div class="vs-box">VS</div>
+        <div class="right"><p>BOWLING</p><h2 id="bowlingTeamName">Team B</h2></div>
+    </section>
+
+    <section class="score-card">
+        <div class="score-top">
+            <div><span class="eyebrow">LIVE SCORE • <span id="inningsLabel">1ST INNINGS</span></span>
+                <h1><span id="score">0</span>/<span id="wickets">0</span></h1>
+                <p><span id="oversText">0.0</span> / <span id="totalOvers">8</span> OVERS</p>
+            </div>
+            <div class="run-rate"><span>RUN RATE</span><strong id="runRate">0.00</strong></div>
+        </div>
+        <div class="target-box">
+            <div><span>TARGET</span><strong id="target">—</strong></div>
+            <div><span>REQUIRED</span><strong id="required">—</strong></div>
+        </div>
+    </section>
+
+    <section class="players-grid">
+        <div class="info-card">
+            <div class="card-title"><span>🏏 CURRENT BATSMEN</span><small>LIVE</small></div>
+            <div id="strikerRow" class="batsman"></div>
+            <div id="nonStrikerRow" class="batsman"></div>
+        </div>
+        <div class="info-card">
+            <div class="card-title"><span>🎯 CURRENT BOWLER</span><small>OVER</small></div>
+            <div class="bowler-main">
+                <div class="bowler-avatar">🎯</div>
+                <div><strong id="bowlerName">Select Bowler</strong><span id="bowlerStats">0.0 - 0 - 0</span></div>
+            </div>
+            <div class="bowler-details">
+                <div><span>OVERS</span><b id="bowlerOvers">0.0</b></div>
+                <div><span>RUNS</span><b id="bowlerRuns">0</b></div>
+                <div><span>WICKETS</span><b id="bowlerWickets">0</b></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="balls-card">
+        <div class="card-title"><span>LAST 6 BALLS</span><small id="ballCount">0 BALLS</small></div>
+        <div class="balls" id="lastBalls"></div>
+    </section>
+
+    <section class="control-card">
+        <div class="control-header">
+            <div><span>ADMIN SCORE PANEL</span><h2>Update Score</h2></div>
+            <button class="undo-btn" onclick="undoLastBall()">↶ UNDO</button>
+        </div>
+        <div class="run-buttons">
+            <button onclick="addRun(1)">+1</button><button onclick="addRun(2)">+2</button>
+            <button onclick="addRun(3)">+3</button><button onclick="addRun(4)">+4</button>
+            <button onclick="addRun(6)">+6</button>
+        </div>
+        <div class="special-buttons">
+            <button onclick="dotBall()">DOT BALL</button>
+            <button class="wicket" onclick="wicket()">WICKET</button>
+            <button class="wide" onclick="wide()">WIDE</button>
+            <button class="noball" onclick="noBall()">NO BALL</button>
+        </div>
+    </section>
+
+    <section class="commentary-card">
+        <div class="card-title"><span>📢 BALL-BY-BALL</span></div>
+        <div id="commentary"><div class="no-commentary">Match started — waiting for first ball...</div></div>
+    </section>
+</main>
+
+<div class="modal-overlay" id="modal">
+    <div class="modal-box">
+        <button class="close-modal" onclick="closeModal()">×</button>
+        <span class="modal-label" id="modalLabel">SELECT PLAYER</span>
+        <h2 id="modalTitle">Select Player</h2>
+        <div id="playerOptions" class="player-options"></div>
+    </div>
+</div>
+
+<div class="result-overlay" id="resultModal">
+    <div class="result-box">
+        <div class="trophy">🏆</div>
+        <span>MATCH RESULT</span>
+        <h2 id="resultTitle"></h2>
+        <p id="resultText"></p>
+        <button onclick="location.href='index.html'">NEW MATCH</button>
+    </div>
+</div>
+
+<script src="live.js"></script>
+</body>
+</html>
